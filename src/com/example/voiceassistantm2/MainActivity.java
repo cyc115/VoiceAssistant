@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.backend.MediaButtonService;
+import com.example.backend.FloatingVoiceInputIconService;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				//start service 
-				Intent intent = new Intent(MediaButtonService.MEDIA_BUTTON_SERVICE_FILTER);
+				Intent intent = new Intent(FloatingVoiceInputIconService.MEDIA_BUTTON_SERVICE_FILTER);
 				startService(intent);
 			}
 		});
@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
     	stop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MediaButtonService.MEDIA_BUTTON_SERVICE_FILTER);
+				Intent intent = new Intent(FloatingVoiceInputIconService.MEDIA_BUTTON_SERVICE_FILTER);
 				boolean i = stopService(intent);
 				Log.d(TAG,"service stoped " + i);
 			}

@@ -7,7 +7,7 @@ package com.example.command;
  * @author yuechuan
  *
  */
-public interface PrioritizedVoiceReceiver extends VoiceReceiver {
+public interface PrioritizedCommandParser extends CommandParser {
 	public final int PRIORITY_HIGH = 1;
 	public final int PRIORITY_MIDIUM= 2;
 	public final int PRIORITY_LOW= 3;
@@ -18,10 +18,10 @@ public interface PrioritizedVoiceReceiver extends VoiceReceiver {
 	 * @param command
 	 * @param priorityLevel
 	 */
-	public void setpriority(VoiceCommandListener command , int priorityLevel);
+	public void setpriority(CommandActions command , int priorityLevel);
 	/**
 	 * get the priority level of a command
 	 * @param command
 	 */
-	public void getpriority(VoiceCommandListener command );
+	public void getpriority(CommandActions command );
 }

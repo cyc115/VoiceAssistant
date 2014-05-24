@@ -23,11 +23,11 @@ import android.widget.ImageView;
  * @author yuechuan
  *
  */
-public class MediaButtonService extends Service {
+public class FloatingVoiceInputIconService extends Service {
 
 	public static final String MEDIA_BUTTON_FILTER = "android.intent.action.MEDIA_BUTTON";
 	public static final String MEDIA_BUTTON_SERVICE_FILTER = "com.example.backend.MediaButtonService";
-	protected static final String TAG = MediaButtonService.class.getName();
+	protected static final String TAG = FloatingVoiceInputIconService.class.getName();
 	/**
 	 * used to creat floating stuff
 	 */
@@ -77,7 +77,6 @@ public class MediaButtonService extends Service {
 					case MotionEvent.ACTION_DOWN:
 
 						// Get current time in nano seconds.
-
 						initialX = paramsF.x;
 						initialY = paramsF.y;
 						initialTouchX = event.getRawX();
@@ -104,12 +103,8 @@ public class MediaButtonService extends Service {
 				}
 			});
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
-
-		
-			//dragable  
 
 	@Override 
 	public int onStartCommand(Intent intent , int i , int i2 ){

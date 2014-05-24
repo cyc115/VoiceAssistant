@@ -3,19 +3,21 @@
  */
 package com.example.command;
 
+import android.content.Context;
+
 /**
  * @author yuechuan
  *
  */
-public interface VoiceCommandListener {
+public interface CommandActions {
 	/**
-	 * all {@link VoiceCommandListener}s should be singleton 
+	 * all {@link CommandActions}s should be singleton 
 	 * and implements {@code getInstance} 
 	 * @return an running instance of the listener
 	 */
-	public VoiceCommandListener getInstance();
+	public CommandActions getInstance();
 	/**
-	 * initializes the {@link VoiceCommandListener}
+	 * initializes the {@link CommandActions}
 	 * @param information
 	 */
 	public void onStart(String ...information);
@@ -26,24 +28,27 @@ public interface VoiceCommandListener {
 	 * listeners , in most cases this will be the speech 
 	 * recognized
 	 */
-	public void onListen(String ...information);
+	public void onListen(Context applicationContext ,String ...information );
 	/**
 	 * called when the VoiceReceiver decides to pause 
-	 * the {@link VoiceCommandListener}, this can be used to 
+	 * the {@link CommandActions}, this can be used to 
 	 * store unstore data.
 	 * @param information
+	 * @deprecated no need to implement unless in special cases
 	 */
 	public void onPause(String ...information);
 	/**
 	 * when resuming from a pause, this should restores all values 
 	 * and event that was turned off by the onPause 
 	 * @param information
+	 * @deprecated no need to implement unless in special cases
 	 */
 	public void onResume (String ... information);
 	/**
-	 * before completely shutting off a {@link VoiceCommandListener}
+	 * before completely shutting off a {@link CommandActions}
 	 * and removing it from the execution line permanently  
 	 * @param information
+	 * @deprecated no need to implement unless in special cases
 	 */
 	public void onKill(String ... information);
 }
