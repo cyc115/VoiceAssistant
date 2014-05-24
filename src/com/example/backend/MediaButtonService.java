@@ -3,17 +3,19 @@
  */
 package com.example.backend;
 
-import android.app.Activity;
+import android.R;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.AudioManager;
-import android.os.Handler;
+import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnDragListener;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 /**
  * service responsible to listen to the media button press even when 
@@ -26,16 +28,11 @@ public class MediaButtonService extends Service {
 	public static final String MEDIA_BUTTON_FILTER = "android.intent.action.MEDIA_BUTTON";
 	public static final String MEDIA_BUTTON_SERVICE_FILTER = "com.example.backend.MediaButtonService";
 	protected static final String TAG = MediaButtonService.class.getName();
-	private Activity parentActivity ;
-	private BroadcastReceiver receiver;
-	final Handler mHandler = new Handler();
-	private final Runnable task = new Runnable() {
-		@Override
-		public void run() {
-			Log.d(TAG,"hello");
-			mHandler.postDelayed(this, 1000);
-		}
-	};
+	/**
+	 * used to creat floating stuff
+	 */
+	private WindowManager windowManager;
+	private ImageView chatHead;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Service#onBind(android.content.Intent)
@@ -50,25 +47,70 @@ public class MediaButtonService extends Service {
 		super.onCreate();
 		
 		Log.d(TAG,"media button Listener service created");
+		//add floating button 
+		windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+		chatHead = new ImageView(this);
+		chatHead.setImageResource(R.drawable.ic_lock_power_off);
 		
-		//set up media button receiver
-		receiver = new MediaButtonReceiver();
-		
-		//register receiver 
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(MEDIA_BUTTON_FILTER);
-		registerReceiver(receiver, filter);
-		((AudioManager)getSystemService(AUDIO_SERVICE))
-				.registerMediaButtonEventReceiver(
-						new ComponentName(this,MediaButtonReceiver.class));
-		
+		final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.TYPE_PRIORITY_PHONE,
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+				PixelFormat.TRANSLUCENT	);
+		params.gravity = Gravity.TOP | Gravity.LEFT;
+		params.x = 0;
+		params.y = 100;
+		windowManager.addView(chatHead, params);
+		//make dragable 
+		try {
+			chatHead.setOnTouchListener(new View.OnTouchListener() {
+				private WindowManager.LayoutParams paramsF = params;
+				private int initialX;
+				private int initialY;
+				private float initialTouchX;
+				private float initialTouchY;
 
-		task.run();
-		
-		
-		
-		
+				@Override public boolean onTouch(View v, MotionEvent event) {
+					Log.i(TAG,"on drag");
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+
+						// Get current time in nano seconds.
+
+						initialX = paramsF.x;
+						initialY = paramsF.y;
+						initialTouchX = event.getRawX();
+						initialTouchY = event.getRawY();
+						break;
+					case MotionEvent.ACTION_UP:
+						break;
+					case MotionEvent.ACTION_MOVE:
+						paramsF.x = initialX + (int) (event.getRawX() - initialTouchX);
+						paramsF.y = initialY + (int) (event.getRawY() - initialTouchY);
+						windowManager.updateViewLayout(chatHead, paramsF);
+						break;
+					}
+					return false;
+				}
+			});
+			
+			chatHead.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.i(TAG,"icon clicked");
+					//TODO start voice input 
+				}
+			});
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
+
+		
+			//dragable  
+
 	@Override 
 	public int onStartCommand(Intent intent , int i , int i2 ){
 		int a = super.onStartCommand(intent, i, i2);
@@ -79,7 +121,7 @@ public class MediaButtonService extends Service {
 	@Override 
 	public void onDestroy(){
 		super.onDestroy();
-		unregisterReceiver(receiver);
-		mHandler.removeCallbacks(task);
+	if (chatHead != null) 
+		windowManager.removeView((chatHead));
 	}
 }
