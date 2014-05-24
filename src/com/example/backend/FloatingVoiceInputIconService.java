@@ -9,13 +9,13 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnDragListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.example.voiceassistantm2.InvisibleVoiceInputActivity;
 
 /**
  * service responsible to listen to the media button press even when 
@@ -99,6 +99,9 @@ public class FloatingVoiceInputIconService extends Service {
 				@Override
 				public void onClick(View v) {
 					Log.i(TAG,"icon clicked");
+					Intent intent = new Intent (getApplicationContext(),InvisibleVoiceInputActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
 					//TODO start voice input 
 				}
 			});

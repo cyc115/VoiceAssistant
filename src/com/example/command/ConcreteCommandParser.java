@@ -30,22 +30,25 @@ public class ConcreteCommandParser implements CommandParser{
 	@Override
 	public void addToCommandList(CommandActions command) {
 		commandMap.put(command, true);
-		
+		command.onStart(null);
 	}
 
 	@Override
 	public void pause(CommandActions command) {
 		commandMap.put(command, false);
+		command.onPause(null);
 	}
 
 	@Override
 	public void resume(CommandActions command) {
-		commandMap.put(command, false);
+		commandMap.put(command, true);
+		command.onResume(null);
 	}
 
 	@Override
 	public void removeFromCommandList(CommandActions command) {
-		commandMap.remove(command);		
+		commandMap.remove(command);	
+		command.onKill(null);
 	}
 
 	/**

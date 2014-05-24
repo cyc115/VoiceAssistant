@@ -2,27 +2,27 @@ package com.example.voiceassistantm2;
 
 import java.util.ArrayList;
 
-import com.example.backend.Constants;
-
-import android.speech.RecognizerIntent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+
+import com.example.backend.CommonTools;
+import com.example.backend.Constants;
+import com.example.command.ConcreteCommandParser;
+import com.example.command.WhatCommand;
 
 public class InvisibleVoiceInputActivity extends Activity {
 
 	private static final String TAG = InvisibleVoiceInputActivity.class.getName();
+	private ConcreteCommandParser commandParser ;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,8 +35,23 @@ public class InvisibleVoiceInputActivity extends Activity {
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speak...");
 		startActivityForResult(intent, Constants.MEDIA_BUTTON_REQUEST_CODE);
+		
+		//init commandParser 
+		commandParser = new ConcreteCommandParser(getApplicationContext());
+		//add commands to the commandParser
+		commandParser.addToCommandList(WhatCommand.getInstance());
 	}
 
+	@Override 
+	public void onResume(){
+		super.onResume();
+		Log.i(TAG,"onResume reached");
+		CommonTools.getInstance(getApplicationContext()).wakeScreen();
+	}
+
+
+
+	
 	@Override 
 	public void onActivityResult(int requestCode , int resultCode , Intent data){
 		if (resultCode == RESULT_OK){
@@ -53,9 +68,14 @@ public class InvisibleVoiceInputActivity extends Activity {
 		//quit the invisible activity and give back control to the user
 		finish();
 	}
-
+	
+	@Override
+	public void finish(){
+		super.finish();
+	}
 	private void processCommands(String string) {
 		// TODO Auto-generated method stub
+		commandParser.process(string);
 		
 	}
 }
