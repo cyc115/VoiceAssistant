@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.backend.CommonTools;
 import com.example.backend.FloatingVoiceInputIconService;
 
 public class MainActivity extends ActionBarActivity {
@@ -31,7 +32,9 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
+        //initialize CommonTools here 
+        CommonTools.getInstance(getApplicationContext());
+        
     }
     @Override
     protected void onStart(){

@@ -50,7 +50,7 @@ public class FloatingVoiceInputIconService extends Service {
 		//add floating button 
 		windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 		chatHead = new ImageView(this);
-		chatHead.setImageResource(R.drawable.ic_lock_power_off);
+		chatHead.setImageResource(R.drawable.ic_btn_speak_now);
 		
 		final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
 				WindowManager.LayoutParams.WRAP_CONTENT,

@@ -26,7 +26,6 @@ public class WhatCommand implements CommandActions{
 
 	private static WhatCommand instance ;
 	
-	private TextToSpeech tts ;
 	private CommonTools tools ;
 
 
@@ -63,7 +62,7 @@ public class WhatCommand implements CommandActions{
 			DateFormat df = new SimpleDateFormat("h:mm a");
 			String date = df.format(Calendar.getInstance().getTime());
 			Log.i(TAG,"date obtained" + date);
-			tools.toSpeech("today is the " + date, false);
+			tools.toSpeech("current time is " + date, false);
 			 handled = true;
 		}
 		//what date
@@ -77,16 +76,12 @@ public class WhatCommand implements CommandActions{
 			tools.toSpeech("today is" + date, false);
 			handled = true;
 		}
-
-		return handled;
-		
+		return handled;	
 	}
 
 	@Override
 	public void onPause(String... information) {
-		if (tts != null){
-			tts.stop();
-		}
+
 	}
 
 	@Override
@@ -97,9 +92,6 @@ public class WhatCommand implements CommandActions{
 
 	@Override
 	public void onKill(String... information) {
-		//release resources
-		tts.shutdown();
-		tts = null;
 		
 	}
 

@@ -32,17 +32,8 @@ public class MediaButtonReceiver extends BroadcastReceiver {
 		if (broadCastIsNotAEcho()){
 			String action = intent.getAction();
 			if (action.equals(FloatingVoiceInputIconService.MEDIA_BUTTON_FILTER)){
-				//TODO do action when received press
 				Log.d(TAG,"media button pressed:" + intent.getStringExtra("message"));
-				//TODO start the invisible activity to listen 
-				Intent i = new Intent(context,InvisibleVoiceInputActivity.class);
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(i);
-				
-//				//bring app to forground
-//				Intent i =  new Intent(context,MainActivity.class);
-//				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-//				context.startActivity(i);
+				CommonTools.startVoiceCommand(context);
 			}
 			else {
 				//when action not recognized
@@ -53,6 +44,7 @@ public class MediaButtonReceiver extends BroadcastReceiver {
 
 		
 	}
+
 	/**
 	 * my phone receives two messages per button press
 	 * for some reason. do this to filter out extra messages

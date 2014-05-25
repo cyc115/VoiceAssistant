@@ -15,6 +15,7 @@ import android.util.Log;
 import com.example.backend.CommonTools;
 import com.example.backend.Constants;
 import com.example.command.ConcreteCommandParser;
+import com.example.command.SendTextMessageCommand;
 import com.example.command.WhatCommand;
 
 public class InvisibleVoiceInputActivity extends Activity {
@@ -40,6 +41,7 @@ public class InvisibleVoiceInputActivity extends Activity {
 		commandParser = new ConcreteCommandParser(getApplicationContext());
 		//add commands to the commandParser
 		commandParser.addToCommandList(WhatCommand.getInstance());
+		commandParser.addToCommandList(SendTextMessageCommand.getInstance());
 	}
 
 	@Override 
