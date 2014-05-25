@@ -9,6 +9,15 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +27,12 @@
         <receiver android:name="com.example.backend.MediaButtonReceiver" >
             <intent-filter android:priority="9999" >
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name="com.example.backend.SMSReceiver">   
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
@@ -32,17 +47,18 @@
         </activity>
 
         <service
-            android:name="com.example.backend.MediaButtonService"
+            android:name="com.example.backend.FloatingVoiceInputIconService"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.example.backend.MediaButtonService" />
             </intent-filter>
         </service>
-
         <activity
-            android:name="com.example.voiceassistantm2.FloatingToolActivity"
-            android:label="@string/title_activity_floating_tool" >
+            android:name="com.example.voiceassistantm2.InvisibleVoiceInputActivity"
+            android:label="@string/title_activity_invisible_voice_input"
+            android:theme="@style/Theme.Transparent" >
+            
         </activity>
     </application>
 

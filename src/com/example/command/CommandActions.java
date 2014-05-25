@@ -50,4 +50,10 @@ public interface CommandActions {
 	 * @return
 	 */
 	public String toString();
+	/**
+	 * generate a detailed help manual that can be 
+	 * dictated or displayed 
+	 * @return
+	 */
+	public String help();
 }

@@ -1,8 +1,8 @@
 package com.example.backend;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
-
-import com.example.voiceassistantm2.InvisibleVoiceInputActivity;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
@@ -18,6 +18,8 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.speech.tts.TextToSpeech;
 import android.telephony.SmsManager;
 import android.util.Log;
+
+import com.example.voiceassistantm2.InvisibleVoiceInputActivity;
 /**
  * contains text to speech utils, wake screen  
  * and other common tools
@@ -33,6 +35,8 @@ public class CommonTools {
 	static CommonTools instance ;
 
 	private static SmsManager sms = SmsManager.getDefault();
+	
+	
 	
 	public static CommonTools getInstance(Context c){
 		if (instance == null){
@@ -159,5 +163,24 @@ public class CommonTools {
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(i);
 	}
+
+	//TODO how to enable the file is open when I need to and close when finish without holding 
+	// resources for too long ? 
+	//TODO is this thread safe ?
+	/**
+	 * 
+	 * @param fileName see the list of filenames in {@link Constants} 
+	 * @param text text tot be written 
+	 * @param WriteMode append ,overwrite , private and stuff 
+	 * see {@link Constants} FLAG_FILE_IO_* for more info
+	 * @throws IOException \
+	 */
+	public void writeToFile(String fileName ,String text, int WriteMode )
+			throws IOException{
+		FileOutputStream fos = context.openFileOutput(fileName, WriteMode);
+		fos.write(text.getBytes());
+		fos.close();
+	}
+	
 
 }

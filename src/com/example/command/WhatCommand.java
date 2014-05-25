@@ -99,4 +99,10 @@ public class WhatCommand implements CommandActions{
 	public String toString() {
 		return TAG;
 	}
+
+	@Override
+	public String help() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

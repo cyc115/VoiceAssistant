@@ -113,4 +113,10 @@ public class SendTextMessageCommand implements CommandActions{
 		return TAG;
 	}
 
+	@Override
+	public String help() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

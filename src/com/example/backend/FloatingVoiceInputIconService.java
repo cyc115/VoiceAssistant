@@ -102,7 +102,6 @@ public class FloatingVoiceInputIconService extends Service {
 					Intent intent = new Intent (getApplicationContext(),InvisibleVoiceInputActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
-					//TODO start voice input 
 				}
 			});
 		} catch (Exception e) {
