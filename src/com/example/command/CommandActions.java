@@ -22,8 +22,10 @@ public interface CommandActions {
 	 * @param information information to be passed on to the 
 	 * listeners , in most cases this will be the speech 
 	 * recognized
+	 * @return true if this command is handled
+	 *	 false if not 
 	 */
-	public void onListen(Context applicationContext ,String ...information );
+	public boolean onListen(Context applicationContext ,String ...information );
 	/**
 	 * called when the VoiceReceiver decides to pause 
 	 * the {@link CommandActions}, this can be used to 
@@ -43,4 +45,9 @@ public interface CommandActions {
 	 * @param information
 	 */
 	public void onKill(String ... information);
+	/**
+	 * for debugging 
+	 * @return
+	 */
+	public String toString();
 }

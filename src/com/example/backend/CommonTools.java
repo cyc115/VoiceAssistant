@@ -38,7 +38,7 @@ public class CommonTools {
 		context = applicationContext;
 	}
 	
-	public void toSpeech(String s){
+	public void toSpeech(String s,boolean queueFlush){
 		if (tts == null){
 			tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
 				
@@ -50,7 +50,8 @@ public class CommonTools {
 				}
 			});
 		}
-		tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+		int command = (queueFlush ? TextToSpeech.QUEUE_FLUSH : TextToSpeech.QUEUE_ADD);
+		tts.speak(s, command, null);
 	}
 	
 	public void wakeScreen() {

@@ -38,5 +38,5 @@ public interface CommandParser {
 	 */
 	public void removeFromCommandList(CommandActions command);
 	
-	public void process(String inputString);
+	public boolean process(String inputString);
 }

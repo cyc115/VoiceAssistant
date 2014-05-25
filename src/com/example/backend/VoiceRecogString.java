@@ -17,14 +17,28 @@ public class VoiceRecogString {
 	 * manipulated text
 	 */
 	public static Pair<Boolean, String > contains
-		(String text,String key,boolean removeStringAfterRecog,int searchMethod ){
-		Boolean result ;
+		(String text,boolean removeStringAfterRecog,int searchMethod,String ... key  ){
+		Boolean result = false ;
+		String replaceString = null ;
 		String resultString = "";
+		text = text.toLowerCase().trim();
 		if (searchMethod == SEARCH_METHOD_PREFIX){
-			result = text.startsWith(key);
+			for (String k : key){
+				result = text.startsWith(k.toLowerCase().trim());
+				if (result == true) {
+					replaceString = k;
+					break;
+				}
+			}
 		}
 		else if (searchMethod == SEARCH_METHOD_CONTAINS){
-			result = text.contains(key);
+			for (String k : key){
+				result = text.contains(k.toLowerCase().trim());
+				if (result == true) {
+					replaceString = k;
+					break;
+				}
+			}
 		}
 		else {
 			result = null;
@@ -33,18 +47,18 @@ public class VoiceRecogString {
 		//remove string or not 
 		if (removeStringAfterRecog && result == true ){
 			if (searchMethod == SEARCH_METHOD_PREFIX){
-				resultString = text.replace(key, "").trim();
+				resultString = text.replace(replaceString, "").trim();
 			}
 			else if (searchMethod == SEARCH_METHOD_CONTAINS){
 				//remove up to keyword
-				resultString = truncateStringUptoKeyword(text,key);
+				resultString = truncateStringUptoKeyword(text,replaceString);
 			}
 		}
 		else if (result == true ) {
 			//if don't truncate string 
 			resultString = text ;
 		}
-		Log.d(TAG,"look for " + key + " in "+ text + ",searchMethod: " 
+		Log.d(TAG,"look for " +replaceString + " in "+ text + ",searchMethod: " 
 		+ searchMethod +" removeString afterRecog: " + removeStringAfterRecog);
 		Log.d(TAG,"contains keyword: " + result+ " returned string: " + resultString);
 		
