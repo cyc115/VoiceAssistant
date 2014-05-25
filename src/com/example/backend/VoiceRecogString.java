@@ -20,6 +20,7 @@ public class VoiceRecogString {
 		(String text,boolean removeStringAfterRecog,int searchMethod,String ... key  ){
 		Boolean result = false ;
 		String replaceString = null ;
+		//string after removing the keyword if removeStringAfterRecog is true
 		String resultString = "";
 		text = text.toLowerCase().trim();
 		if (searchMethod == SEARCH_METHOD_PREFIX){
@@ -36,6 +37,8 @@ public class VoiceRecogString {
 				result = text.contains(k.toLowerCase().trim());
 				if (result == true) {
 					replaceString = k;
+					Log.d(TAG,"look for " +replaceString + " in "+ text + ",searchMethod: " 
+							+ searchMethod +" removeString afterRecog: " + removeStringAfterRecog);
 					break;
 				}
 			}
@@ -58,8 +61,8 @@ public class VoiceRecogString {
 			//if don't truncate string 
 			resultString = text ;
 		}
-		Log.d(TAG,"look for " +replaceString + " in "+ text + ",searchMethod: " 
-		+ searchMethod +" removeString afterRecog: " + removeStringAfterRecog);
+//		Log.d(TAG,"look for " +replaceString + " in "+ text + ",searchMethod: " 
+//		+ searchMethod +" removeString afterRecog: " + removeStringAfterRecog);
 		Log.d(TAG,"contains keyword: " + result+ " returned string: " + resultString);
 		
 		return new Pair<Boolean,String> (result,resultString);

@@ -28,6 +28,10 @@ public class ConcreteCommandParser implements CommandParser{
 	
 	public ConcreteCommandParser(Context c) {
 		applicationContext = c;
+		//add commands to the commandParser
+		addToCommandList(WhatCommand.getInstance());
+		addToCommandList(SendTextMessageCommand.getInstance());
+		addToCommandList(TimeStampCommand.getInstance());
 	}
 	
 	/*
@@ -67,7 +71,7 @@ public class ConcreteCommandParser implements CommandParser{
 		Long t1 = System.currentTimeMillis();
 		Iterator<Entry<CommandActions, Boolean>> commandEntryIterator = commandMap.entrySet().iterator();
 		Entry<CommandActions, Boolean> next ;
-		CommonTools.getInstance().toSpeech("you have said" + inputString, true);  //repeat
+		CommonTools.getInstance().toSpeech("you have said " + inputString, true);  //repeat
 		boolean handled = (previousCommand == null ?
 				false :	previousCommand.onListen(applicationContext, inputString) );
 		//first try passing the message to previousCommand and if that returns false then try other commands 
@@ -88,6 +92,11 @@ public class ConcreteCommandParser implements CommandParser{
 					
 				}
 			}
+		}
+		if (!handled){
+			String unhandledCommandMessage = "unhandled command " + inputString;
+			Log.w(TAG,unhandledCommandMessage);
+			CommonTools.getInstance().toSpeech(unhandledCommandMessage, false);
 		}
 		Log.i(TAG,"command processing time(Ms) :" + (System.currentTimeMillis() - t1));
 		return handled;

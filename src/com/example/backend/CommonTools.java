@@ -1,7 +1,15 @@
 package com.example.backend;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -182,5 +190,52 @@ public class CommonTools {
 		fos.close();
 	}
 	
-
+	/**
+	 * read from file 
+	 * throws IOException if end of file is reached 
+	 * TODO untested may cause unwanted error 
+	 * TODO not well implemented 
+	 */
+	public String readFromFile(String fileName , int numberOfLines )
+			throws IOException{
+		String line = "";
+		InputStream instream = new FileInputStream(fileName);
+		if (instream != null){
+			InputStreamReader isr = new InputStreamReader(instream);
+			BufferedReader buffReader = new BufferedReader(isr);
+			int numberOfLinesLeftToRead = numberOfLines; 
+			
+			  
+			// read every line of the file into the line-variable, on line at the time 
+			do { 
+			   line = line + buffReader.readLine() + '\n';
+			   
+			  // do something with the line  
+			} while (line != null && numberOfLinesLeftToRead > 0);
+			 
+			} 
+		instream.close();
+		return line;
+		}
+	
+	
+	/**
+	 * get the current date in text formate
+	 * @return
+	 */
+	public static String getDate() {
+		DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
+		String date = df.format(Calendar.getInstance().getTime());
+		return date;
+	}
+	/**
+	 * get the current time in text format
+	 * @return
+	 */
+	public static String getCurrentTime() {
+		DateFormat df = new SimpleDateFormat("h:mm a");
+		String date = df.format(Calendar.getInstance().getTime());
+		return date;
+	}
 }
+

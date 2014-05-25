@@ -37,11 +37,9 @@ public class InvisibleVoiceInputActivity extends Activity {
 		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speak...");
 		startActivityForResult(intent, Constants.MEDIA_BUTTON_REQUEST_CODE);
 		
-		//init commandParser 
+		//init commandParser : command init in the constructor
 		commandParser = new ConcreteCommandParser(getApplicationContext());
-		//add commands to the commandParser
-		commandParser.addToCommandList(WhatCommand.getInstance());
-		commandParser.addToCommandList(SendTextMessageCommand.getInstance());
+
 	}
 
 	@Override 

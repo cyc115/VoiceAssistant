@@ -59,8 +59,7 @@ public class WhatCommand implements CommandActions{
 		Pair<Boolean, String> result = VoiceRecogString
 				.contains(information[0],  false, VoiceRecogString.SEARCH_METHOD_PREFIX,whatTime,whatTime2,whatTime3);
 		if (result.first == true && !handled){
-			DateFormat df = new SimpleDateFormat("h:mm a");
-			String date = df.format(Calendar.getInstance().getTime());
+			String date = tools.getCurrentTime();
 			Log.i(TAG,"date obtained" + date);
 			tools.toSpeech("current time is " + date, false);
 			 handled = true;
@@ -70,14 +69,17 @@ public class WhatCommand implements CommandActions{
 				.contains(information[0],false, VoiceRecogString.SEARCH_METHOD_PREFIX,whatDate,whatDay);
 		
 		if (result.first == true && !handled){
-			DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
-			String date = df.format(Calendar.getInstance().getTime());
+			String date = tools.getDate();
 			Log.i(TAG,"date obtained" + date);
 			tools.toSpeech("today is" + date, false);
 			handled = true;
 		}
 		return handled;	
 	}
+
+
+
+
 
 	@Override
 	public void onPause(String... information) {

@@ -33,7 +33,8 @@ public class SendTextMessageCommand implements CommandActions{
 	public static String [] defineContact = {
 		"message",
 		"send message to",
-		"send text message to"
+		"send text message to",
+		"text message to"
 	};
 	public static String [] composeMessage = {
 		"compose",
@@ -63,8 +64,8 @@ public class SendTextMessageCommand implements CommandActions{
 				Log.i(TAG,"contace found for " + result.second +  " : " + numb );
 			}
 		}
-		
-		else if (handled == false && currentContact != null && currentMessage == null){
+		//compose message can be called again if message is incorrect 
+		if (handled == false && currentContact != null ){
 			result = VoiceRecogString.contains(information[0], true,VoiceRecogString.SEARCH_METHOD_PREFIX, composeMessage);
 			if (result.first ){
 				handled = true;
@@ -75,20 +76,38 @@ public class SendTextMessageCommand implements CommandActions{
 			}
 		}
 		//confirm to send 
-		else if (handled == false && currentContact != null && currentMessage != null){
+		if (handled == false && currentContact != null && currentMessage != null) {
+			Log.i(TAG,"else entered ");
+			
+			for (String s : Constants.positiveConfirmation){
+				Log.i(TAG,"positive : " + s);
+			}
+			
 			result = VoiceRecogString.contains(information[0], false, VoiceRecogString.SEARCH_METHOD_CONTAINS, Constants.positiveConfirmation);
 			if (result.first){	//if it's a yes then send 
+				handled = true;
 				CommonTools.sendSMS(currentContactNumber,currentMessage);
+				CommonTools.getInstance().toSpeech("message sent ", false);
 				Log.i(TAG,"message sent to " + currentContact + " with number : " + currentContactNumber + " with message : " + currentMessage);
 			}
 			//if a no then clear message
-			else if (VoiceRecogString.contains(information[0], false, VoiceRecogString.SEARCH_METHOD_CONTAINS, Constants.negativeConfirmation).first){
-				CommonTools.getInstance().toSpeech("message cleared ", true);
-				Log.i(TAG,"user stoped sending message: message is cleared");
+			else {
+				Log.i(TAG,"not a positive command");
+				if (VoiceRecogString.contains(
+						information[0],
+						false,
+						VoiceRecogString.SEARCH_METHOD_CONTAINS,
+						Constants.negativeConfirmation).first
+						){
+					handled = true;
+					CommonTools.getInstance().toSpeech("message cleared ", true);
+					Log.i(TAG,"user stoped sending message: message is cleared");
+				}
+
 			}
 			currentMessage = null ;	//clear the sent message 
 		}
-		else {}
+
 		return handled;
 	}
 

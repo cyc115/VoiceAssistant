@@ -19,7 +19,8 @@ public class Constants {
 	public static final String [] positiveConfirmation = {
 		"yes",
 		"positive",
-		"right"
+		"right",
+		"confirmed"
 	};
 	/**
 	 * used for speech recognition 
@@ -43,4 +44,5 @@ public class Constants {
 	/**
 	 * below are file names used by file io for some of the commands 
 	 */
+	public static final String FILE_NAME_TIMESTAMP = "timestamp.csv";
 }
